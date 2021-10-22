@@ -1,51 +1,42 @@
-import React, { Component } from 'react'
-import './App.css';
-import Plan from './Plan';
+import React, { useState } from 'react'
+import "./App.css"
 
-class App extends Component {
-  state= {
-    items: [],
-    text: ""
-  }
+const App = () => {
+    let [text, setText] = useState("")
+    let [item, setItem] = useState([])
 
-  handleChange = (e) => {
-    this.setState({
-      text: e.target.value
-    })
-  }
-
-  handleAdd = () => {
-    if(this.state.text !== ""){
-      const items = [...this.state.items,this.state.text]
-      this.setState({
-        items: items,
-        text: ""
-      })
+    const handleChange = (e) => {
+        setText(text = e.target.value)
     }
-  }
 
-  handleDelete = (id) => {
-    const oldItems = [...this.state.items]
-    const items = oldItems.filter((el,i) => i !== id)
+    const handleClick = () => {
+        const itemsList = [...item, text]
+        setItem(item = itemsList)
+        setText(text = "")
+    }
 
-    this.setState({items: items})
-  }
-  
-  render() {
+    const handleDelete = (e) => {
+        e.target.parentElement.remove()
+    }
+
     return (
-      <div className="container">
-        <h1>Todo List App</h1>
-        <div className="input-box">
-          <input type="text" placeholder="Enter your plan" className="input" value={this.state.text} onChange={this.handleChange} />
-          <button type="button" onClick={this.handleAdd}>Add</button>
+        <div className="container-md mt-5">
+            <div className="row">
+                <div className="col">
+                    <h1 className="text-center"><img src={process.env.PUBLIC_URL + "/logo.png"} alt="logo" />Todo List App</h1>
+                    <div className="input-box d-flex justify-content-between">
+                        <input type="text" placeholder="Enter your plan" value={text} className="form-control" onChange={handleChange} />
+                        <button type="button" className="btn btn-primary" onClick={handleClick}>Add</button>
+                    </div>
+                    <div className="col-8 mx-2">
+                    <ul className="list-group">
+                        {item.map((value, i) => <li key={i} className="list-group-item list-group-item-primary p-3 my-3 d-flex justify-content-between align-item-center">{value} <i className="far fa-trash-alt text-danger" onClick={handleDelete}></i></li>)}
+                    </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ul>
-          {this.state.items.map((value,i) => <Plan key={i} id={i} value={value} sendData={this.handleDelete} />)}
-        </ul>
-      </div>
     )
-  }
 }
 
-
-export default App;
+export default App

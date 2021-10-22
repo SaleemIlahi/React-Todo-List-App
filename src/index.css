@@ -9,10 +9,5 @@
 body{
   width: 100%;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Exo 2', sans-serif;
-  background-color: #130f40;
-  color: #fff;
+  overflow: hidden;
 }
